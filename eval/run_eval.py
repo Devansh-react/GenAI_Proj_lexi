@@ -65,6 +65,13 @@ if __name__ == "__main__":
     for item in report["results"]:
         mark = "PASS" if item["passed"] else "FAIL"
         checks = ", ".join(name for name, passed in item.get("checks", {}).items() if not passed)
-        print(f"{mark:4} {item['id']:5} level={item['level']} {item['question']}" + (f" | failed: {checks}" if checks else ""))
+        suffix = f" | failed: {checks}" if checks else ""
+        if not item["passed"] and item.get("response"):
+            response = item["response"]
+            suffix += f" | status={response.get('status')} answer={response.get('answer')!r}"
+            trace = response.get("trace", [])
+            if trace:
+                suffix += f" trace={trace[-1].get('notes')!r}"
+        print(f"{mark:4} {item['id']:5} level={item['level']} {item['question']}" + suffix)
     print("\nScore: {score_percent}% ({passed}/{total})".format(**report))
     print("Retrieval hit rate: {retrieval_hit_rate:.1%} | Citation validity: {citation_validity:.1%} | Refusal accuracy: {refusal_accuracy:.1%}".format(**report))

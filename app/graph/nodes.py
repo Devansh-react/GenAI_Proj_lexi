@@ -60,7 +60,12 @@ class Nodes:
         # Prevent a nearby clause from being used to invent a missing field.
         # E.g. the lease prohibits subletting but states no penalty; the
         # employment agreement identifies Priya but contains no salary.
-        evidence = " ".join(chunk.text.lower() for chunk in state.get("retrieved_chunks", []))
+        cited_ids = {citation.chunk_id for citation in citations}
+        evidence = " ".join(
+            chunk.text.lower()
+            for chunk in state.get("retrieved_chunks", [])
+            if chunk.chunk_id in cited_ids
+        )
         question = state["question"].lower()
         unsupported_fields = {"penalty": ("penalty", "fine", "damages"), "salary": ("salary", "pay", "compensation", "wage")}
         for field, terms in unsupported_fields.items():

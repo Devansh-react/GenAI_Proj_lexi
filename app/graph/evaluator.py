@@ -17,12 +17,12 @@ def evaluate(chunks: list[RetrievedChunk], threshold: float) -> tuple[float, str
     # strong exact-term support. Lexical overlap may corroborate such a match;
     # it never stands alone, which keeps unrelated questions from passing.
     corroborated_hit = any(
-        chunk.semantic_score >= 0.45 and chunk.lexical_score >= 0.60
+        chunk.semantic_score >= 0.50 and chunk.lexical_score > 0.0
         for chunk in chunks
     )
     coverage = sum(
         chunk.semantic_score >= threshold
-        or (chunk.semantic_score >= 0.45 and chunk.lexical_score >= 0.60)
+        or (chunk.semantic_score >= 0.50 and chunk.lexical_score > 0.0)
         for chunk in chunks
     )
     return score, ("sufficient" if semantic_hit or corroborated_hit else "insufficient"), coverage

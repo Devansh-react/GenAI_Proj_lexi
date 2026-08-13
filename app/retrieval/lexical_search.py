@@ -15,7 +15,14 @@ class LexicalSearch:
         query = Counter(_terms(question))
         scored: list[tuple[dict, float]] = []
         for chunk in chunks:
-            terms = Counter(_terms(chunk["text"]))
+            # A legal clause is easier to find when the visible section/title
+            # label participates in lexical matching (e.g. “Unit 4B” is in the
+            # document title while “monthly rent” is in the Rent clause).
+            searchable = " ".join(
+                str(chunk.get(field, ""))
+                for field in ("doc_title", "section_title", "text")
+            )
+            terms = Counter(_terms(searchable))
             overlap = sum(min(count, terms[word]) for word, count in query.items())
             # Recall-oriented lexical support: a short clause should not lose
             # merely because the question contains polite/auxiliary wording.
