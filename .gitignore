@@ -1,0 +1,41 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+.docqa_ledger.sqlite3
+*.log
+.coverage
+.coverage.*
+.cache/
+htmlcov/
+dist/
+build/
+*.egg-info/
+pip-wheel-metadata/
+.eggs/
+.python-version
+
+# IDEs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Virtualenvs and environment folders
+venv/
+
+# Evaluation artifacts
+eval/*.json
+
+# Logs
+logs/
+
+# Secrets
+secrets.json
