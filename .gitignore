@@ -3,7 +3,6 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .env
-.env.*
 .docqa_ledger.sqlite3
 *.log
 .coverage
